@@ -22,6 +22,16 @@ class DataTransferGateway
      */
     private $propertyAccessor;
     
+    public function __construct(
+        ObjectGraphBuilderInterface $objectGraphBuilder,
+        MetadataFactoryInterface $metadataFactory,
+        PropertyAccessorInterface $propertyAccessor
+    ) {
+        $this->objectGraphBuilder = $objectGraphBuilder;
+        $this->metadataFactory    = $metadataFactory;
+        $this->propertyAccessor   = $propertyAccessor;
+    }
+    
     public function transferData($fromObject, $toObject)
     {
         $this->objectGraphBuilder->clear();
