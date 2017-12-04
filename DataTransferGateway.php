@@ -36,11 +36,25 @@ class DataTransferGateway
     {
         $this->objectGraphBuilder->clear();
         
-        $toObject = $this->objectGraphBuilder->buildObjectGraph($toObject);
-        $metadata = $this->getObjectMetadata($fromObject);
+        $toObject     = $this->objectGraphBuilder->buildObjectGraph($toObject);
+        $metadataFrom = $this->getObjectMetadata($fromObject);
+        $metadataTo   = $this->getObjectMetadata($toObject);
         
-        foreach ($metadata->propertyMetadata as $propertyMetadata) {
+        /* @var $propertyMetadata \Vox\Metadata\PropertyMetadata */
+        foreach ($metadataFrom->propertyMetadata as $propertyMetadata) {
             $path = $propertyMetadata->getAnnotation(Mapping\Bindings::class)->target ?? $propertyMetadata->name;
+            
+//            if (!isset($metadataTo->propertyMetadata[$path])) {
+//                throw new \RuntimeException("property {$metadataTo->name}:\${$path} does not exists");
+//            }
+            
+            $targetValue = $this->propertyAccessor->get($toObject, $path);
+            
+            if (is_object($targetValue)) {
+                $this->transferData($propertyMetadata->getValue($fromObject), $targetValue);
+                continue;
+            }
+            
             $this->propertyAccessor->set($toObject, $path, $propertyMetadata->getValue($fromObject));
         }
         
