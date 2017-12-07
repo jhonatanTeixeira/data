@@ -5,7 +5,7 @@ namespace Vox\Data;
 use Metadata\MetadataFactoryInterface;
 use Vox\Metadata\ClassMetadata;
 
-class DataTransferGateway
+class DataTransferGateway implements DataTransferGatewayInterface
 {
     /**
      * @var ObjectGraphBuilderInterface
@@ -32,7 +32,7 @@ class DataTransferGateway
         $this->propertyAccessor   = $propertyAccessor;
     }
     
-    public function transferData($fromObject, $toObject)
+    public function transferDataTo($fromObject, $toObject)
     {
         $this->objectGraphBuilder->clear();
         
@@ -42,20 +42,42 @@ class DataTransferGateway
         
         /* @var $propertyMetadata \Vox\Metadata\PropertyMetadata */
         foreach ($metadataFrom->propertyMetadata as $propertyMetadata) {
-            $path = $propertyMetadata->getAnnotation(Mapping\Bindings::class)->target ?? $propertyMetadata->name;
+            $bindings = $propertyMetadata->getAnnotation(Mapping\Bindings::class);
+            $target   = $bindings->target ?? $propertyMetadata->name;
             
-//            if (!isset($metadataTo->propertyMetadata[$path])) {
-//                throw new \RuntimeException("property {$metadataTo->name}:\${$path} does not exists");
-//            }
-            
-            $targetValue = $this->propertyAccessor->get($toObject, $path);
+            $targetValue = $this->propertyAccessor->get($toObject, $target);
             
             if (is_object($targetValue)) {
-                $this->transferData($propertyMetadata->getValue($fromObject), $targetValue);
+                $this->transferDataTo($propertyMetadata->getValue($fromObject), $targetValue);
                 continue;
             }
             
-            $this->propertyAccessor->set($toObject, $path, $propertyMetadata->getValue($fromObject));
+            $this->propertyAccessor->set($toObject, $target, $propertyMetadata->getValue($fromObject));
+        }
+        
+        return $toObject;
+    }
+    
+    public function transferDataFrom($fromObject, $toObject)
+    {
+        $this->objectGraphBuilder->clear();
+        
+        $toObject     = $this->objectGraphBuilder->buildObjectGraph($toObject);
+        $metadataTo   = $this->getObjectMetadata($toObject);
+        
+        /* @var $propertyMetadata \Vox\Metadata\PropertyMetadata */
+        foreach ($metadataTo->propertyMetadata as $propertyMetadata) {
+            $bindings = $propertyMetadata->getAnnotation(Mapping\Bindings::class);
+            $source   = $bindings->source ?? $propertyMetadata->name;
+            $type     = $propertyMetadata->type;
+            
+            if (class_exists($type)) {
+                $this->transferDataFrom($fromObject, $propertyMetadata->getValue($toObject));
+                continue;
+            }
+
+            $sourceValue = $this->propertyAccessor->get($fromObject, $source);
+            $propertyMetadata->setValue($toObject, $sourceValue);
         }
         
         return $toObject;

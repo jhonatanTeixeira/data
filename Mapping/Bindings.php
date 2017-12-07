@@ -21,5 +21,10 @@ class Bindings
     /**
      * @var string
      */
+    public $from;
+    
+    /**
+     * @var string
+     */
     public $type = 'string';
 }
