@@ -69,7 +69,7 @@ class ObjectHydrator implements ObjectHydratorInterface
     
     private function isDecorated(string $type): bool
     {
-        return (bool) preg_match('/(.*)\<(.*)\>/', $type);
+        return (bool) preg_match('/(.*)((\<(.*)\>)|(\[\]))/', $type);
     }
     
     private function convertNativeType($type, $value)
@@ -99,11 +99,12 @@ class ObjectHydrator implements ObjectHydratorInterface
     
     private function convertDecorated(string $type, $value)
     {
-        preg_match('/(.*)\<(.*)\>/', $type, $matches);
+        preg_match('/(?P<class>.*)((\<(?P<decoration>.*)\>)|(?P<brackets>\[\]))/', $type, $matches);
         
-        list(, $type, $decoration) = $matches;
-            
-        switch ($type) {
+        $class      = isset($matches['brackets']) ? 'array' : $matches['class'];
+        $decoration = isset($matches['brackets']) ? $matches['class'] : $matches['decoration'];
+
+        switch ($class) {
             case 'array':
                 if (!is_array($value)) {
                     throw new RuntimeException('value mapped as array is not array');
