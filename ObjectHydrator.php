@@ -7,6 +7,7 @@ use Metadata\MetadataFactoryInterface;
 use RuntimeException;
 use Vox\Data\Mapping\Bindings;
 use Vox\Data\Mapping\Discriminator;
+use Vox\Data\Mapping\Exclude;
 use Vox\Metadata\ClassMetadata;
 use Vox\Metadata\PropertyMetadata;
 
@@ -32,7 +33,9 @@ class ObjectHydrator implements ObjectHydratorInterface
             $source     = $annotation ? ($annotation->source ?? $propertyMetadata->name) : $propertyMetadata->name;
             $type       = $propertyMetadata->type;
             
-            if (!isset($data[$source])) {
+            if (!isset($data[$source]) 
+                || ($propertyMetadata->hasAnnotation(Exclude::class) 
+                    && $propertyMetadata->getAnnotation(Exclude::class)->input)) {
                 continue;
             }
             
