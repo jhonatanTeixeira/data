@@ -5,6 +5,11 @@ namespace Vox\Data;
 use Metadata\MetadataFactoryInterface;
 use Vox\Metadata\ClassMetadata;
 
+/**
+ * transfer data from one object to another
+ * 
+ * @author Jhonatan Teixeira <jhonatan.teixeira@gmail.com>
+ */
 class DataTransferGateway implements DataTransferGatewayInterface
 {
     /**

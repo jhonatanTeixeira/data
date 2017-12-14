@@ -11,6 +11,11 @@ use Vox\Data\Mapping\Exclude;
 use Vox\Metadata\ClassMetadata;
 use Vox\Metadata\PropertyMetadata;
 
+/**
+ * Hydrates objects based on its metadata information, uses data mapping
+ * 
+ * @author Jhonatan Teixeira <jhonatan.teixeira@gmail.com>
+ */
 class ObjectHydrator implements ObjectHydratorInterface
 {
     /**

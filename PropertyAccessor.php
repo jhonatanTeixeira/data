@@ -5,6 +5,11 @@ namespace Vox\Data;
 use Metadata\MetadataFactoryInterface;
 use RuntimeException;
 
+/**
+ * Accesses objects data through setters, getters and reflection
+ * 
+ * @author Jhonatan Teixeira <jhonatan.teixeira@gmail.com>
+ */
 class PropertyAccessor implements PropertyAccessorInterface
 {
     /**

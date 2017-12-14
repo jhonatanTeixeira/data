@@ -8,6 +8,12 @@ use ReflectionParameter;
 use Vox\Metadata\ClassMetadata;
 use Vox\Metadata\PropertyMetadata;
 
+/**
+ * Use object's metadata to create the entire graph of empty objects in case there's no
+ * instantiated objects on the properties marked as @var Type
+ * 
+ * @author Jhonatan Teixeira <jhonatan.teixeira@gmail.com>
+ */
 class ObjectGraphBuilder implements ObjectGraphBuilderInterface
 {
     private $storage = [];
