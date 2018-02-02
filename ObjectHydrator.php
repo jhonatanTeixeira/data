@@ -47,9 +47,9 @@ class ObjectHydrator implements ObjectHydratorInterface
             $value = $data[$source];
             
             if ($type && $value) {
-                if ($this->isDecorated($type)) {
+                if ($propertyMetadata->isDecoratedType()) {
                     $value = $this->convertDecorated($type, $value);
-                } elseif ($this->isNativeType($type)) {
+                } elseif ($propertyMetadata->isNativeType()) {
                     $value = $this->convertNativeType($type, $value);
                 } else {
                     $value = $this->convertObjectValue($type, $value);
@@ -58,26 +58,6 @@ class ObjectHydrator implements ObjectHydratorInterface
 
             $propertyMetadata->setValue($object, $value);
         }
-    }
-    
-    private function isNativeType(string $type)
-    {
-        return in_array($type, [
-            'string',
-            'array',
-            'int',
-            'integer',
-            'float',
-            'boolean',
-            'bool',
-            'DateTime',
-            '\DateTime',
-        ]);
-    }
-    
-    private function isDecorated(string $type): bool
-    {
-        return (bool) preg_match('/(.*)((\<(.*)\>)|(\[\]))/', $type);
     }
     
     private function convertNativeType($type, $value)
