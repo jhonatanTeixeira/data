@@ -52,6 +52,10 @@ class ObjectHydrator implements ObjectHydratorInterface
                 } elseif ($propertyMetadata->isNativeType()) {
                     $value = $this->convertNativeType($type, $value);
                 } else {
+                    if (!class_exists($type)) {
+                        throw new \RuntimeException("type $type don't exists");
+                    }
+                    
                     $value = $this->convertObjectValue($type, $value);
                 }
             }
