@@ -1,0 +1,20 @@
+{
+    "name": "vox/data",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vox\\Data\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4",
+        "phing/phing": "^2.16",
+        "squizlabs/php_codesniffer": "^2",
+        "phpmd/phpmd": "^2.6",
+        "sebastian/phpcpd": "^3.0",
+        "mayflower/php-codebrowser": "^1.1"
+    }
+}
