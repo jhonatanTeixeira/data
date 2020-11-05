@@ -3,19 +3,19 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Vox\\Data\\": ""
+            "Vox\\Data\\": "src\\"
         }
     },
     "require": {
-        "php": ">=7.0",
-        "vox/metadata": "^0.5"
+        "php": ">=7.4",
+        "vox/metadata": "^0.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4",
-        "phing/phing": "^2.16",
+        "phpunit/phpunit": "^8",
+        "phing/phing": "^2",
         "squizlabs/php_codesniffer": "^2",
-        "phpmd/phpmd": "^2.6",
-        "sebastian/phpcpd": "^3.0",
-        "mayflower/php-codebrowser": "^1.1"
+        "phpmd/phpmd": "^2",
+        "sebastian/phpcpd": "^5",
+        "mayflower/php-codebrowser": "^2"
     }
 }

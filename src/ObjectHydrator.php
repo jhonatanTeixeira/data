@@ -30,6 +30,10 @@ class ObjectHydrator implements ObjectHydratorInterface
     
     public function hydrate($object, array $data)
     {
+        if (is_string($object)) {
+            $object = (new \ReflectionClass($object))->newInstanceWithoutConstructor();
+        }
+
         $objectMetadata = $this->getObjectMetadata($object, $data);
 
         /* @var $propertyMetadata PropertyMetadata  */
@@ -60,8 +64,14 @@ class ObjectHydrator implements ObjectHydratorInterface
                 }
             }
 
-            $propertyMetadata->setValue($object, $value);
+            if ($propertyMetadata->hasSetter()) {
+                $propertyMetadata->setter->invoke($object, [$value]);
+            } else {
+                $propertyMetadata->setValue($object, $value);
+            }
         }
+
+        return $object;
     }
     
     private function convertNativeType($type, $value)
@@ -105,15 +115,24 @@ class ObjectHydrator implements ObjectHydratorInterface
                 $data = [];
 
                 foreach ($value as $item) {
-                    $object = $this->convertObjectValue($decoration, $item);
+                    if (is_scalar($item) || is_bool($item) || $item instanceof DateTime) {
+                        $value = $this->convertNativeType($decoration, $item);
+                    } else {
+                        $value = $this->convertObjectValue($decoration, $item);
+                    }
 
-                    $data[] = $object;
+                    $data[] = $value;
                 }
 
                 break;
             case 'DateTime':
             case '\DateTime':
                 $data = DateTime::createFromFormat($decoration, $value);
+
+                if (!$data) {
+                    throw new RuntimeException("cannot convert date $value to format $decoration");
+                }
+
                 break;
         }
 

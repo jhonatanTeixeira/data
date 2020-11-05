@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="vox-metadata" default="build" basedir="." description="Quality">
+    <target name="build" depends="clean, phpcs, phpmd, pdepend, phpunit, phpcb">
+
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <mkdir dir="build" />
+        <mkdir dir="build/log" />
+        <mkdir dir="build/chart" />
+    </target>
+
+    <target name="phpcs">
+        <phpcodesniffer
+                standard="PSR2"
+                file="src"
+        >
+            <formatter type="checkstyle" outfile="build/log/checkstyle.xml"/>
+        </phpcodesniffer>
+    </target>
+
+    <target name="phpmd">
+        <phpmd
+                file="src"
+                format="xml"
+        >
+            <formatter type="xml" outfile="build/log/pmd.xml"/>
+        </phpmd>
+    </target>
+
+    <target name="pdepend">
+        <phpdepend
+                file="src"
+        >
+            <logger type="jdepend-chart" outfile="build/chart/chart.svg"/>
+            <logger type="overview-pyramid" outfile="build/chart/pyramid.svg"/>
+            <logger type="jdepend-xml" outfile="build/log/jdepend.xml"/>
+            <analyzer type="coderank-mode" value="method"/>
+        </phpdepend>
+    </target>
+
+    <target name="phpcpd">
+        <phpcpd
+                file="src"
+        >
+            <formatter type="pmd" outfile="build/log/pmd-cpd.xml"/>
+        </phpcpd>
+    </target>
+
+    <target name="phpunit">
+        <exec executable="vendor/bin/phpunit" />
+    </target>
+
+    <target name="phpcb">
+        <exec executable="vendor/bin/phpcb">
+            <arg line="--log build/log
+                       --output build/code_browser
+                       --source src" />
+        </exec>
+    </target>
+
+</project>
