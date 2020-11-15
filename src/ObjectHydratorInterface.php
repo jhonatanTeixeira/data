@@ -7,5 +7,5 @@ namespace Vox\Data;
  */
 interface ObjectHydratorInterface
 {
-    public function hydrate($object, array $data);
+    public function hydrate($object, array $data): object;
 }

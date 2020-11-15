@@ -8,7 +8,8 @@
     },
     "require": {
         "php": ">=7.4",
-        "vox/metadata": "^0.6"
+        "vox/metadata": "^0.6",
+        "vox/event": "^0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",

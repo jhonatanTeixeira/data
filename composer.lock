@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d833eeb5f985b3ce451c0de0bd88cae7",
+    "content-hash": "88e8746f114afb7aa33656bfa4cccb9d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -534,6 +534,52 @@
             "time": "2020-07-13T19:23:57+00:00"
         },
         {
+            "name": "psr/event-dispatcher",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "time": "2019-01-08T18:20:26+00:00"
+        },
+        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.20.0",
             "source": {
@@ -678,17 +724,60 @@
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
-            "name": "vox/metadata",
-            "version": "0.6.2",
+            "name": "vox/event",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jhonatanTeixeira/metadata.git",
-                "reference": "3f1091af23385bf7b899e895b8378e751ab3be58"
+                "url": "https://github.com/jhonatanTeixeira/event-dispatcher.git",
+                "reference": "4f484ee3b93963062728f145168d05b5065867ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhonatanTeixeira/metadata/zipball/3f1091af23385bf7b899e895b8378e751ab3be58",
-                "reference": "3f1091af23385bf7b899e895b8378e751ab3be58",
+                "url": "https://api.github.com/repos/jhonatanTeixeira/event-dispatcher/zipball/4f484ee3b93963062728f145168d05b5065867ed",
+                "reference": "4f484ee3b93963062728f145168d05b5065867ed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "psr/event-dispatcher": "^1"
+            },
+            "require-dev": {
+                "mayflower/php-codebrowser": "^2",
+                "phing/phing": "^2",
+                "phpmd/phpmd": "^2",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "^2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vox\\Event\\": "src\\"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jhonatan Teixeira",
+                    "email": "jhonatan.teixeira@guararapes.ind.br"
+                }
+            ],
+            "time": "2020-11-08T23:53:41+00:00"
+        },
+        {
+            "name": "vox/metadata",
+            "version": "0.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhonatanTeixeira/metadata.git",
+                "reference": "be596e5618215e82d2456d7b5d0d66d64d998763"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhonatanTeixeira/metadata/zipball/be596e5618215e82d2456d7b5d0d66d64d998763",
+                "reference": "be596e5618215e82d2456d7b5d0d66d64d998763",
                 "shasum": ""
             },
             "require": {
@@ -716,7 +805,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2020-11-05T02:39:23+00:00"
+            "time": "2020-11-06T13:36:37+00:00"
         },
         {
             "name": "webimpress/safe-writer",

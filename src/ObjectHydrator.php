@@ -22,13 +22,22 @@ class ObjectHydrator implements ObjectHydratorInterface
      * @var MetadataFactoryInterface
      */
     private $metadataFactory;
+
+    /**
+     * @var TypeAwareObjectHydrator[]
+     */
+    private array $hydrators = [];
     
     public function __construct(MetadataFactoryInterface $metadataFactory)
     {
         $this->metadataFactory = $metadataFactory;
     }
+
+    public function addHydrator(TypeAwareObjectHydrator $hydrator) {
+        $this->hydrators[$hydrator->getSupportedClassName()] = $hydrator;
+    }
     
-    public function hydrate($object, array $data)
+    public function hydrate($object, array $data): object
     {
         if (is_string($object)) {
             $object = (new \ReflectionClass($object))->newInstanceWithoutConstructor();
@@ -49,7 +58,7 @@ class ObjectHydrator implements ObjectHydratorInterface
             }
             
             $value = $data[$source];
-            
+
             if ($type && $value) {
                 if ($propertyMetadata->isDecoratedType()) {
                     $value = $this->convertDecorated($type, $value);
@@ -143,6 +152,10 @@ class ObjectHydrator implements ObjectHydratorInterface
     {
         $metadata = $this->getObjectMetadata($type, $data);
         $object   = $metadata->reflection->newInstanceWithoutConstructor();
+
+        if (isset($this->hydrators[$type])) {
+            return $this->hydrators[$type]->hydrate($object, $data);
+        }
 
         $this->hydrate(
             $object, 
