@@ -81,13 +81,14 @@ class ObjectGraphBuilder implements ObjectGraphBuilderInterface
         if ($constructor = $reflection->getConstructor()) {
             /* @var $injectable ReflectionParameter */
             foreach ($constructor->getParameters() as $injectable) {
-                $typeReflection = $injectable->getClass();
+                $typeReflection = $injectable->getType();
 
                 if (!$typeReflection) {
                     continue;
                 }
 
-                $object = $this->fetchObject($typeReflection->name) ?? $this->createObject($typeReflection->name);
+                $object = $this->fetchObject($typeReflection->getName())
+                    ?? $this->createObject($typeReflection->getName());
 
                 $this->storeObject($object);
 

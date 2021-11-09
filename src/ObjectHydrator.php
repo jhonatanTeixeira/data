@@ -103,6 +103,9 @@ class ObjectHydrator implements ObjectHydratorInterface
             case 'DateTime':
             case '\DateTime':
                 return new DateTime($value);
+            case 'DateTimeImmutable':
+            case '\DateTimeImmutable':
+                return new \DateTimeImmutable($value);
             default:
                 return $value;
         }
@@ -137,6 +140,15 @@ class ObjectHydrator implements ObjectHydratorInterface
             case 'DateTime':
             case '\DateTime':
                 $data = DateTime::createFromFormat($decoration, $value);
+
+                if (!$data) {
+                    throw new RuntimeException("cannot convert date $value to format $decoration");
+                }
+
+                break;
+            case 'DateTimeImmutable':
+            case '\DateTimeImmutable':
+                $data = \DateTimeImmutable::createFromFormat($decoration, $value);
 
                 if (!$data) {
                     throw new RuntimeException("cannot convert date $value to format $decoration");
